@@ -52,6 +52,10 @@ const CreateUser = new mongoose.Schema(
       enum: ["Customer", "Staff", "Manager", "Admin"],
       default: "Customer",
     },
+    cart: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Cart",
+    },
   },
   { timestamps: true },
 );
