@@ -25,6 +25,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       if (!user.email) {
+        return false;
       }
       try {
         const isExists = await CheckEmail(user.email);
