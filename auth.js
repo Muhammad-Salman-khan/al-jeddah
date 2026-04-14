@@ -65,7 +65,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, //tokken lmax age after that it will expire
+    maxAge: 30 * 24 * 60 * 60, //token max age after that it will expire
   },
   secret: process.env.NEXTAUTH_SECRET,
 });
