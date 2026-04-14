@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google.js";
 import Credentials from "next-auth/providers/credentials";
-import loginChecker from "./lib/LoginLogic.js";
-import CheckEmail from "./lib/FindEmail.js";
+import loginChecker from "./Lib/LoginLogic.js";
+import CheckEmail from "./Lib/FindEmail.js";
 import User from "./schema/User.js";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -63,4 +63,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, //tokken lmax age after that it will expire
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 });

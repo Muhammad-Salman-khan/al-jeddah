@@ -1,5 +1,5 @@
-import connectDB from "@/lib/db.js";
-import { HashPassword } from "@/lib/hashPassword.js";
+import connectDB from "@/Lib/db.js";
+import { HashPassword } from "@/Lib/hashPassword.js";
 import Image from "next/image";
 
 export default async function Home() {
