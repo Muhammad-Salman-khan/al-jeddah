@@ -1,9 +1,10 @@
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google.js";
+import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import loginChecker from "./Lib/LoginLogic.js";
 import CheckEmail from "./Lib/FindEmail.js";
 import User from "./schema/User.js";
+import connectDB from "./Lib/db.js";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -16,7 +17,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return await loginChecker(credentials);
       },
     }),
-    Google,
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
   ],
   callbacks: {
     async signIn({ account, user }) {
@@ -27,16 +31,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (!user.email) {
         return false;
       }
+      await connectDB();
       try {
         const isExists = await CheckEmail(user.email);
         if (!isExists) {
           await User.create({
             name: user.name ?? "Google user",
             email: user.email,
-            profileImg: user.profileImg,
-            address: user.address,
-            phoneNumber: user.phoneNumber,
-            gender: user.gender ?? "",
+            profileImg: user?.image ?? "",
+            // address: user?.address ?? "",
+            // phoneNumber: user?.phoneNumber ?? "",
+            // gender: user.gender ?? "Male",
             password: "",
           });
         }
@@ -48,7 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async jwt({ token, user }) {
       if (user) {
-        token.id = user._id;
+        token.id = user.id;
         token.email = user.email;
         token.role = user.role;
       }

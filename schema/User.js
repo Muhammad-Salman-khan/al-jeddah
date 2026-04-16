@@ -14,7 +14,6 @@ const CreateUser = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
     },
     profileImg: {
       type: String,
@@ -40,8 +39,6 @@ const CreateUser = new mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ["Male", "female"],
-      default: [""],
     },
     isBlocked: {
       type: Boolean,

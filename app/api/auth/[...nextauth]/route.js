@@ -1,2 +1,3 @@
-const { handlers } = require("@/auth.js");
-export const { GET, Post } = handlers;
+import { handlers } from "@/auth";
+
+export const { GET, POST } = handlers;
